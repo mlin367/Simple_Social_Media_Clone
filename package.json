@@ -1,0 +1,45 @@
+{
+  "name": "Simple_Social_Media_Clone",
+  "version": "1.0.0",
+  "description": "A simple social media clone where users can talk about anything they want through threads.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mlin367/Simple_Social_Media_Clone.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mlin367/Simple_Social_Media_Clone/issues"
+  },
+  "homepage": "https://github.com/mlin367/Simple_Social_Media_Clone#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "express": "^4.16.4",
+    "express-graphql": "^0.8.0",
+    "express-session": "^1.16.1",
+    "graphql": "^14.2.1",
+    "path": "^0.12.7",
+    "pg": "^7.10.0",
+    "pg-hstore": "^2.3.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "sequelize": "^5.8.2"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.4.4",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.5",
+    "css-loader": "^2.1.1",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.19.0",
+    "style-loader": "^0.23.1",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.1"
+  }
+}
