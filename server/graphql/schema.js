@@ -1,11 +1,11 @@
 const graphql = require('graphql');
+const { User, Comment, Thread } = require('../../database/models');
 
 const { 
   GraphQLObjectType, 
   GraphQLString,
   GraphQLID,
   GraphQLSchema,
-  GraphQLInt
 } = graphql;
 
 const CommentType = new GraphQLObjectType({
@@ -39,7 +39,7 @@ const ThreadType = new GraphQLObjectType({
     user: {
       type: UserType,
       resolve(parent, args) {
-        
+
       }
     }
   })
@@ -53,3 +53,34 @@ const UserType = new GraphQLObjectType({
     password: { type: GraphQLString }
   })
 });
+
+const RootQuery = new GraphQLObjectType({
+  name: 'RootQueryType',
+  fields: {
+    comment: {
+      type: CommentType,
+      args: { id: { type: GraphQLID }},
+      resolve(parent, args) {
+
+      }
+    },
+    thread: {
+      type: ThreadType,
+      args: { id: { type: GraphQLID }},
+      resolve(parent, args) {
+
+      }
+    },
+    user: {
+      type: UserType,
+      args: { id: { type: GraphQLID }},
+      resolve(parent, args) {
+
+      }
+    }
+  }
+})
+
+module.exports = new GraphQLSchema({
+  query: RootQuery
+})
