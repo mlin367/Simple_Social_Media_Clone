@@ -28,6 +28,10 @@ const Thread = connection.define('thread', {
     type: Sequelize.STRING,
     allowNull: false
   },
+  description: {
+    type: Sequelize.STRING,
+    allowNull: false
+  },
   comment_count: {
     type: Sequelize.INTEGER,
     allowNull: false
@@ -43,7 +47,7 @@ const Comment = connection.define('comment', {
     autoIncrement: true,
     primaryKey: true    
   },
-  description: {
+  text: {
     type: Sequelize.STRING,
     allowNull: false
   }
