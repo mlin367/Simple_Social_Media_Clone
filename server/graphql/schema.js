@@ -6,24 +6,45 @@ const {
   GraphQLString,
   GraphQLID,
   GraphQLSchema,
+  GraphQLList
 } = graphql;
+
+const findOneById = async (Model, id) => {
+  let result = await Model.findOne({
+    raw: true,
+    where: {
+      id
+    }
+  });
+  return result;
+}
+
+const findAllById = async (Model, id) => {
+  let result = await Model.findAll({
+    raw: true,
+    where: {
+      id
+    }
+  });
+  return result;
+}
 
 const CommentType = new GraphQLObjectType({
   name: 'Comment',
   fields: () => ({
     id: { type: GraphQLID },
     text: { type: GraphQLString },
-    created: { type: GraphQLString },
+    createdAt: { type: GraphQLString },
     user: {
       type: UserType,
       resolve(parent, args) {
-
+        return findOneById(User, parent.userId);
       }
     },
     thread: {
       type: ThreadType,
       resolve(parent, args) {
-
+        return findOneById(Thread, parent.threadId);
       }
     }
   })
@@ -34,12 +55,18 @@ const ThreadType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLID },
     title: { type: GraphQLString },
-    created: { type: GraphQLString },
+    createdAt: { type: GraphQLString },
     description: { type: GraphQLString },
     user: {
       type: UserType,
       resolve(parent, args) {
-
+        return findOneById(User, parent.userId);
+      }
+    },
+    comments: {
+      type: new GraphQLList(CommentType),
+      resolve(parent, args){
+        return findAllById(Thread, parent.id);
       }
     }
   })
@@ -50,7 +77,13 @@ const UserType = new GraphQLObjectType({
   fields: () => ({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
-    password: { type: GraphQLString }
+    hash_password: { type: GraphQLString },
+    comments: {
+      type: new GraphQLList(CommentType),
+      resolve(parent, args){
+        return findAllById(Comment, parent.id);
+      }
+    }
   })
 });
 
@@ -60,22 +93,22 @@ const RootQuery = new GraphQLObjectType({
     comment: {
       type: CommentType,
       args: { id: { type: GraphQLID }},
-      resolve(parent, args) {
-
+      resolve: (parent, args) => {
+        return findOneById(Comment, args.id);
       }
     },
     thread: {
       type: ThreadType,
       args: { id: { type: GraphQLID }},
       resolve(parent, args) {
-
+        return findOneById(Thread, args.id);
       }
     },
     user: {
       type: UserType,
       args: { id: { type: GraphQLID }},
       resolve(parent, args) {
-
+        return findOneById(User, args.id);
       }
     }
   }
