@@ -61,7 +61,7 @@ User.hasMany(Thread);
 Thread.hasMany(Comment);
 
 connection
-  .sync()
+  .sync( {force: false} )
   .then(() => {
     console.log('Models synced with database');
   })
