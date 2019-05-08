@@ -114,6 +114,24 @@ const RootQuery = new GraphQLObjectType({
   }
 })
 
+const Mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: {
+    addUser: {
+      type: UserType,
+      args: {
+        name: { type: GraphQLString },
+        password: { type: GraphQLString }
+      },
+      resolve: async (parent, args) => {
+        let result = await User.create({ name: args.name, hash_password: args.password});
+        return result.get({ plain: true });
+      }
+    }
+  }
+})
+
 module.exports = new GraphQLSchema({
-  query: RootQuery
+  query: RootQuery,
+  mutation: Mutation
 })
