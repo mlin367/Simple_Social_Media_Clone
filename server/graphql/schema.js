@@ -1,12 +1,13 @@
 const graphql = require('graphql');
 const { User, Comment, Thread } = require('../../database/models');
 
-const { 
-  GraphQLObjectType, 
+const {
+  GraphQLObjectType,
   GraphQLString,
   GraphQLID,
   GraphQLSchema,
-  GraphQLList
+  GraphQLList,
+  GraphQLInt
 } = graphql;
 
 const findOneById = async (Model, id) => {
@@ -17,17 +18,8 @@ const findOneById = async (Model, id) => {
     }
   });
   return result;
-}
+};
 
-const findAllById = async (Model, id) => {
-  let result = await Model.findAll({
-    raw: true,
-    where: {
-      id
-    }
-  });
-  return result;
-}
 
 const CommentType = new GraphQLObjectType({
   name: 'Comment',
@@ -57,6 +49,7 @@ const ThreadType = new GraphQLObjectType({
     title: { type: GraphQLString },
     createdAt: { type: GraphQLString },
     description: { type: GraphQLString },
+    comment_count: { type: GraphQLInt },
     user: {
       type: UserType,
       resolve(parent, args) {
@@ -65,8 +58,14 @@ const ThreadType = new GraphQLObjectType({
     },
     comments: {
       type: new GraphQLList(CommentType),
-      resolve(parent, args){
-        return findAllById(Thread, parent.id);
+      resolve: async (parent, args) => {
+        let result = await Comment.findAll({
+          raw: true,
+          where: {
+            threadId: parent.id
+          }
+        });
+        return result;
       }
     }
   })
@@ -80,8 +79,14 @@ const UserType = new GraphQLObjectType({
     hash_password: { type: GraphQLString },
     comments: {
       type: new GraphQLList(CommentType),
-      resolve(parent, args){
-        return findAllById(Comment, parent.id);
+      resolve: async (parent, args) => {
+        let result = await Comment.findAll({
+          raw: true,
+          where: {
+            userId: parent.id
+          }
+        });
+        return result;
       }
     }
   })
@@ -92,27 +97,48 @@ const RootQuery = new GraphQLObjectType({
   fields: {
     comment: {
       type: CommentType,
-      args: { id: { type: GraphQLID }},
+      args: { id: { type: GraphQLID } },
       resolve: (parent, args) => {
         return findOneById(Comment, args.id);
       }
     },
     thread: {
       type: ThreadType,
-      args: { id: { type: GraphQLID }},
+      args: { id: { type: GraphQLID } },
       resolve(parent, args) {
         return findOneById(Thread, args.id);
       }
     },
     user: {
       type: UserType,
-      args: { id: { type: GraphQLID }},
+      args: { id: { type: GraphQLID } },
       resolve(parent, args) {
         return findOneById(User, args.id);
       }
+    },
+    comments: {
+      type: new GraphQLList(CommentType),
+      resolve: async (parent, args) => {
+        let result = await Comment.findAll({raw: true});
+        return result
+      }
+    },
+    threads: {
+      type: new GraphQLList(ThreadType),
+      resolve: async (parent, args) => {
+        let result = await Thread.findAll({raw: true});
+        return result;
+      }
+    },
+    users: {
+      type: new GraphQLList(UserType),
+      resolve: async (parent, args) => {
+        let result = await User.findAll({raw: true});
+        return result;
+      }
     }
   }
-})
+});
 
 const Mutation = new GraphQLObjectType({
   name: 'Mutation',
@@ -124,14 +150,53 @@ const Mutation = new GraphQLObjectType({
         password: { type: GraphQLString }
       },
       resolve: async (parent, args) => {
-        let result = await User.create({ name: args.name, hash_password: args.password});
+        let result = await User.create({
+          name: args.name,
+          hash_password: args.password
+        });
+        return result.get({ plain: true });
+      }
+    },
+    addThread: {
+      type: ThreadType,
+      args: {
+        title: { type: GraphQLString },
+        description: { type: GraphQLString },
+        comment_count: { type: GraphQLInt },
+        userId: { type: GraphQLID }
+      },
+      resolve: async (parent, args) => {
+        let result = await Thread.create({
+          title: args.title,
+          description: args.description,
+          comment_count: args.comment_count,
+          userId: args.userId
+        });
+        return result.get({ plain: true });
+      }
+    },
+    addComment: {
+      type: CommentType,
+      args: {
+        text: { type: GraphQLString },
+        userId: { type: GraphQLID },
+        threadId: { type: GraphQLID }
+      },
+      resolve: async (parent, args) => {
+        let result = await Comment.create({
+          text: args.text,
+          userId: args.userId,
+          threadId: args.threadId
+        });
+        let updateCommentCount = await Thread.findByPk(args.threadId);
+        updateCommentCount.increment('comment_count', { by: 1 });
         return result.get({ plain: true });
       }
     }
   }
-})
+});
 
 module.exports = new GraphQLSchema({
   query: RootQuery,
   mutation: Mutation
-})
+});
