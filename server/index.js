@@ -17,6 +17,7 @@ app.use(session({
   secret: 'shhhhhcatz',
   name: 'social_media_clone',
   resave: false,
+  saveUninitialized: false,
   store: new RedisStore({
     client: redisClient
   })
