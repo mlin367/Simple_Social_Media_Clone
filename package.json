@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/mlin367/Simple_Social_Media_Clone#readme",
   "dependencies": {
+    "apollo-boost": "^0.3.1",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "connect-redis": "^3.4.1",
@@ -32,6 +33,7 @@
     "pg": "^7.10.0",
     "pg-hstore": "^2.3.2",
     "react": "^16.8.6",
+    "react-apollo": "^2.5.5",
     "react-dom": "^16.8.6",
     "redis": "^2.8.0",
     "sequelize": "^5.8.2"

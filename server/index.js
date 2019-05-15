@@ -28,8 +28,11 @@ app.use('/graphql', graphqlHTTP({
   graphiql: true
 }));
 
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('dev'));
+
+app.use(express.static(path.join(__dirname, '/../client/dist/')));
 
 app.listen(2400, () => console.log('app is listening on port 2400'));
