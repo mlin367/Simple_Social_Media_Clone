@@ -4,7 +4,7 @@ import Thread from './Thread';
 const ThreadList = props => (
   <div className="threadList">
     {props.data.map(thread => (
-      <Thread thread={thread}/>
+      <Thread key={thread.id} thread={thread}/>
     ))}
   </div>
 );

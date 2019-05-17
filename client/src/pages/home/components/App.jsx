@@ -2,11 +2,11 @@ import React from 'react';
 import NavBar from '../../../common_components/NavBar';
 import ThreadList from './ThreadList';
 import { gql } from "apollo-boost";
-import { Query } from 'react-apollo';
 
 const getThreads = gql`
   {
     threads {
+      id
       title
       createdAt
       comment_count
