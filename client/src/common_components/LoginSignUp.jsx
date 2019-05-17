@@ -34,7 +34,7 @@ class LoginSignUp extends React.Component {
     return (
      <div className="loginApp">
        <NavBar />
-       <h2>{this.props.loginOrSignUp}</h2>
+       <h2>{this.props.title}</h2>
        <div className="userPass">
          Username: <input onChange={this.onInputChange} className="user" />
          Password: <input onChange={this.onInputChange} className="pass" />

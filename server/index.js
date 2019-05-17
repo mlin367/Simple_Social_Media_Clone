@@ -18,6 +18,9 @@ app.use(session({
   name: 'social_media_clone',
   resave: false,
   saveUninitialized: false,
+  cookie: {
+    maxAge: null
+  },
   store: new RedisStore({
     client: redisClient
   })
@@ -32,10 +35,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
-
 app.use(express.static(path.join(__dirname, '/../client/dist/')));
 
-app.post('/Login', (req, res) => {
+app.get('/checkSession', (req, res) => {
+  if (req.session.user) {
+    res.status(200).send(req.session.user);
+  } else {
+    res.status(200).send(false);
+  }
+})
+
+app.post('/login', (req, res) => {
+  req.session.user = 'TEST';
   res.status(201).send('/home.html');
 })
 

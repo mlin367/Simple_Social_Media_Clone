@@ -9,7 +9,7 @@ const client = new ApolloClient({
 
 render(
   // <ApolloProvider client={client}>
-    <LoginSignUp loginOrSignUp='Login'/>,
+    <LoginSignUp title='Login' loginOrSignUp='Login'/>,
   // </ApolloProvider>,
   document.getElementById('root')
 );

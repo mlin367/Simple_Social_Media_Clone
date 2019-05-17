@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/mlin367/Simple_Social_Media_Clone#readme",
   "dependencies": {
+    "@babel/runtime": "^7.4.4",
     "apollo-boost": "^0.3.1",
     "axios": "^0.18.0",
     "bcrypt": "^3.0.6",
@@ -40,6 +41,7 @@
     "sequelize": "^5.8.2"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
