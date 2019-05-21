@@ -145,6 +145,12 @@ const RootQuery = new GraphQLObjectType({
         let result = await User.findAll({raw: true});
         return result;
       }
+    },
+    isLoggedIn: {
+      type: AuthType,
+      resolve: (parent, args, { request }) => {
+        return { status: !!request.session.userId };
+      }
     }
   }
 });
@@ -153,7 +159,7 @@ const Mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
     login : {
-      type: AuthType,
+      type: UserType,
       args: {
         name: { type: GraphQLString },
         password: { type: GraphQLString }
@@ -166,6 +172,13 @@ const Mutation = new GraphQLObjectType({
         const userInfo = user.get({ plain: true });
         request.session.userId = userInfo.id;
         return userInfo;
+      }
+    },
+    logout: {
+      type: AuthType,
+      resolve: async (parent, args, { request }) => {
+        request.session.destroy();
+        return { status: false };
       }
     },
     addUser: {
