@@ -17,14 +17,15 @@ export const GET_THREADS = gql`
 export const GET_AUTH_STATUS = gql`
 {
   isLoggedIn {
-    status
+    status,
+    userId
   }
 }
 `;
 
 export const GET_USER = gql`
-{
-  user($id: ID!) {
+query ($id: ID!) {
+  user(id: $id) {
     name
   }
 }

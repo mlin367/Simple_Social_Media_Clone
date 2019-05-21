@@ -1,7 +1,7 @@
 import React from 'react';
 import NavBar from '../../../common_components/NavBar';
 import ThreadList from './ThreadList';
-import { GET_THREADS } from '../../../apollo/mutations';
+import { GET_THREADS } from '../../../apollo/queries';
 
 export default class App extends React.Component {
   constructor(props) {

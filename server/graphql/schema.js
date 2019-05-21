@@ -97,7 +97,8 @@ const UserType = new GraphQLObjectType({
 const AuthType = new GraphQLObjectType({
   name: 'Auth',
   fields: () => ({
-    status: { type: GraphQLBoolean }
+    status: { type: GraphQLBoolean },
+    userId: { type: GraphQLID }
   })
 });
 
@@ -148,8 +149,16 @@ const RootQuery = new GraphQLObjectType({
     },
     isLoggedIn: {
       type: AuthType,
-      resolve: (parent, args, { request }) => {
-        return { status: !!request.session.userId };
+      resolve: (parent, args, { session }) => {
+        let status, userId;
+        if (!session.userId) {
+          status = false;
+          userId = 0;
+        } else {
+          status = true;
+          userId = session.userId;
+        }
+        return { status, userId };
       }
     }
   }
@@ -164,21 +173,22 @@ const Mutation = new GraphQLObjectType({
         name: { type: GraphQLString },
         password: { type: GraphQLString }
       },
-      resolve: async (parent, args, { request }) => {
-        const user = User.findOne({ where: { name: args.name }});
+      resolve: async (parent, args, { session }) => {
+        const user = await User.findOne({ where: { name: args.name }});
         if (!user) return null;
-        const isValidPass = await bcrypt.compare(args.password, user.password);
+        const userInfo = await user.get({ plain: true });
+        console.log(userInfo)
+        const isValidPass = await bcrypt.compare(args.password, user.hash_password);
         if (!isValidPass) return null;
-        const userInfo = user.get({ plain: true });
-        request.session.userId = userInfo.id;
+        session.userId = userInfo.id;
         return userInfo;
       }
     },
     logout: {
       type: AuthType,
-      resolve: async (parent, args, { request }) => {
-        request.session.destroy();
-        return { status: false };
+      resolve: async (parent, args, { session }) => {
+        session.destroy();
+        return { status: false, userId: 0 };
       }
     },
     addUser: {
@@ -187,16 +197,16 @@ const Mutation = new GraphQLObjectType({
         name: { type: GraphQLString },
         password: { type: GraphQLString }
       },
-      resolve: async (parent, args, { request }) => {
+      resolve: async (parent, args, { session }) => {
         const checkUser = await User.findOne({ where: { name: args.name }});
         if (checkUser) return 'Username already exists!';
-        const password = bcrypt.hash(args.password, 10);
+        const password = await bcrypt.hash(args.password, 10);
         const user = await User.create({
           name: args.name,
           hash_password: password
         });
         const userInfo = user.get({ plain: true });
-        request.session.userId = userInfo.id;
+        session.userId = userInfo.id;
         return userInfo;
       }
     },

@@ -11,7 +11,7 @@ class LoginSignUp extends React.Component {
       pass: '',
     }
     this.onInputChange = this.onInputChange.bind(this);
-    this.onSubmitClick = this.onSubmitClick.bind(this);
+    // this.onSubmitClick = this.onSubmitClick.bind(this);
   }
 
   onInputChange(e) {

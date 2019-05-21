@@ -6,7 +6,6 @@ import client from '../../apollo/apollo_client';
 
 const AppWithClient = withApollo(App);
 
-
 render(
   <ApolloProvider client={client}>
     <AppWithClient />
