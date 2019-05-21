@@ -1,21 +1,7 @@
 import React from 'react';
 import NavBar from '../../../common_components/NavBar';
 import ThreadList from './ThreadList';
-import { gql } from "apollo-boost";
-
-const getThreads = gql`
-  {
-    threads {
-      id
-      title
-      createdAt
-      comment_count
-      user {
-        name
-      }
-    }
-  }
-`;
+import { GET_THREADS } from '../../../apollo/mutations';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -27,7 +13,7 @@ export default class App extends React.Component {
 
   componentDidMount() {
     this.props.client.query({
-      query: getThreads
+      query: GET_THREADS
     }).then(response => this.setState({ data: response.data.threads }));
   }
 

@@ -1,12 +1,6 @@
 import React from 'react';
-import axios from 'axios';
-
-const checkSession = async () => {
-  const result = await axios.get('/checkSession');
-  return result;
-}
-
-const result = checkSession();
+import { Query } from 'react-apollo';
+import { GET_USER, GET_AUTH_STATUS } from '../apollo/queries';
 
 const signedIn = user => {
   return (
@@ -29,10 +23,22 @@ const notSignedIn = (
 );
 
 const NavBar = props => (
-  <div className="navbar">
-    <h1>Otakus Unite</h1>
-    {checkSession() ? signedIn : notSignedIn}
-  </div>
+  <Query query={GET_AUTH_STATUS}>
+    {({ loading: loading1, error, data: { status } }) => {
+      <Query query={GET_USER}>
+        {({ loading: loading2, error: error2, data: { user } }) => {
+          if (loading1 || loading2) return <h1>Loading...</h1>
+          if (error || error2) return <h1>Error!</h1>
+          return (
+            <div className="navbar">
+              <h1>Otakus Unite</h1>
+              {status ? signedIn(user) : notSignedIn}
+            </div>
+          )
+        }}
+      </Query>
+    }}
+  </Query>
 );
 
 export default NavBar;

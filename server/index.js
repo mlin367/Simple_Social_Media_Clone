@@ -37,17 +37,17 @@ app.use(morgan('dev'));
 
 app.use(express.static(path.join(__dirname, '/../client/dist/')));
 
-app.get('/checkSession', (req, res) => {
-  if (req.session.user) {
-    res.status(200).send(req.session.user);
-  } else {
-    res.status(200).send(false);
-  }
-})
+// app.get('/checkSession', (req, res) => {
+//   if (req.session.user) {
+//     res.status(200).send(req.session.user);
+//   } else {
+//     res.status(200).send(false);
+//   }
+// })
 
-app.post('/login', (req, res) => {
-  req.session.user = 'TEST';
-  res.status(201).send('/home.html');
-})
+// app.post('/login', (req, res) => {
+//   req.session.user = 'TEST';
+//   res.status(201).send('/home.html');
+// })
 
 app.listen(2400, () => console.log('app is listening on port 2400'));
