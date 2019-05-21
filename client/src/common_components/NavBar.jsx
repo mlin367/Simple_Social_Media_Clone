@@ -28,37 +28,11 @@ const notSignedIn = (
   </div>
 );
 
-class NavBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      session: null
-    }
-  }
-
-  async componentDidMount() {
-    const result = await axios.get('/checkSession');
-    this.setState({
-      session: result.data
-    })
-    console.log(result.data)
-  }
-
-  render() {
-    return (
-      <div className="navbar">
+const NavBar = props => (
+  <div className="navbar">
     <h1>Otakus Unite</h1>
-    {this.state.session ? signedIn(this.state.session) : notSignedIn}
+    {checkSession() ? signedIn : notSignedIn}
   </div>
-    )
-  }
-}
-
-// const NavBar = props => (
-//   <div className="navbar">
-//     <h1>Otakus Unite</h1>
-//     {checkSession() ? signedIn : notSignedIn}
-//   </div>
-// );
+);
 
 export default NavBar;

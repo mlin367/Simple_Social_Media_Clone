@@ -1,5 +1,6 @@
 const graphql = require('graphql');
 const { User, Comment, Thread } = require('../../database/models');
+const bcrypt = require('bcrypt');
 
 const {
   GraphQLObjectType,
@@ -7,7 +8,8 @@ const {
   GraphQLID,
   GraphQLSchema,
   GraphQLList,
-  GraphQLInt
+  GraphQLInt,
+  GraphQLBoolean
 } = graphql;
 
 const findOneById = async (Model, id) => {
@@ -92,6 +94,13 @@ const UserType = new GraphQLObjectType({
   })
 });
 
+const AuthType = new GraphQLObjectType({
+  name: 'Auth',
+  fields: () => ({
+    status: { type: GraphQLBoolean }
+  })
+});
+
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
@@ -143,18 +152,39 @@ const RootQuery = new GraphQLObjectType({
 const Mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
+    login : {
+      type: AuthType,
+      args: {
+        name: { type: GraphQLString },
+        password: { type: GraphQLString }
+      },
+      resolve: async (parent, args, { request }) => {
+        const user = User.findOne({ where: { name: args.name }});
+        if (!user) return null;
+        const isValidPass = await bcrypt.compare(args.password, user.password);
+        if (!isValidPass) return null;
+        const userInfo = user.get({ plain: true });
+        request.session.userId = userInfo.id;
+        return userInfo;
+      }
+    },
     addUser: {
       type: UserType,
       args: {
         name: { type: GraphQLString },
         password: { type: GraphQLString }
       },
-      resolve: async (parent, args) => {
-        let result = await User.create({
+      resolve: async (parent, args, { request }) => {
+        const checkUser = await User.findOne({ where: { name: args.name }});
+        if (checkUser) return 'Username already exists!';
+        const password = bcrypt.hash(args.password, 10);
+        const user = await User.create({
           name: args.name,
-          hash_password: args.password
+          hash_password: password
         });
-        return result.get({ plain: true });
+        const userInfo = user.get({ plain: true });
+        request.session.userId = userInfo.id;
+        return userInfo;
       }
     },
     addThread: {

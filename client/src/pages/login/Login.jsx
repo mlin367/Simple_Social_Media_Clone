@@ -1,15 +1,12 @@
 import { render } from 'react-dom';
 import React from 'react';
 import LoginSignUp from '../../common_components/LoginSignUp';
-import ApolloClient from 'apollo-boost';
-
-const client = new ApolloClient({
-  uri: 'http://localhost:2400/graphql'
-});
+import { ApolloProvider } from 'react-apollo';
+import client from '../../apollo/apollo_client';
 
 render(
-  // <ApolloProvider client={client}>
+  <ApolloProvider client={client}>
     <LoginSignUp title='Login' loginOrSignUp='Login'/>,
-  // </ApolloProvider>,
+  </ApolloProvider>,
   document.getElementById('root')
 );
