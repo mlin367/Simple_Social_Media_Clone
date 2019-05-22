@@ -177,7 +177,6 @@ const Mutation = new GraphQLObjectType({
         const user = await User.findOne({ where: { name: args.name }});
         if (!user) return null;
         const userInfo = await user.get({ plain: true });
-        console.log(userInfo)
         const isValidPass = await bcrypt.compare(args.password, user.hash_password);
         if (!isValidPass) return null;
         session.userId = userInfo.id;

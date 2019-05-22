@@ -11,7 +11,6 @@ class LoginSignUp extends React.Component {
       pass: '',
     }
     this.onInputChange = this.onInputChange.bind(this);
-    // this.onSubmitClick = this.onSubmitClick.bind(this);
   }
 
   onInputChange(e) {
@@ -19,17 +18,6 @@ class LoginSignUp extends React.Component {
       [e.target.className] : e.target.value
     })
   }
-
-  // onSubmitClick() {
-  //   axios.post(`/${this.props.loginOrSignUp}`, {
-  //     name: this.state.user,
-  //     password: this.state.pass
-  //   })
-  //   .then(result => {
-  //     window.location.href = result.data;
-  //   })
-  // }
-
 
   render() {
     return (

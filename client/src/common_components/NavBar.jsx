@@ -17,8 +17,8 @@ const signedIn = user => {
 
 const notSignedIn = (
   <div className="loginSignup">
-    <span>Login</span>
-    <span>Sign Up</span>
+    <span onClick={() => window.location.href='/login.html'}>Login</span>
+    <span onClick={() => window.location.href='/signup.html'}>Sign Up</span>
   </div>
 );
 
