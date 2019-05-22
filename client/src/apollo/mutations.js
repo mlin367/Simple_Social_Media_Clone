@@ -18,7 +18,7 @@ mutation ($name: String!, $password: String!) {
 
 export const LOGOUT = gql`
 mutation {
-  login {
+  logout {
     status
   }
 }

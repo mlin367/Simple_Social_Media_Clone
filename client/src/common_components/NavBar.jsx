@@ -1,19 +1,25 @@
 import React from 'react';
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import { GET_USER, GET_AUTH_STATUS } from '../apollo/queries';
+import { LOGOUT } from '../apollo/mutations';
 
-const signedIn = user => {
-  return (
-    <div className="dropDown">
-      <span className="userName">{user}</span>
-      <div className="dropDown-content">
-        <a>User Settings</a>
-        <a>My Comments</a>
-        <a>Log Out</a>
+const signedIn = user => (
+  <Mutation 
+    mutation={LOGOUT}
+    onCompleted={result => window.location.reload()}
+  >
+    {mutation => (
+      <div className="dropDown">
+        <span className="userName">{user}</span>
+        <div className="dropDown-content">
+          <a>User Settings</a>
+          <a>My Comments</a>
+          <a onClick={() => mutation()}>Log Out</a>
+        </div>
       </div>
-    </div>
-  );
-};
+    )}
+  </Mutation>
+);
 
 const notSignedIn = (
   <div className="loginSignup">
