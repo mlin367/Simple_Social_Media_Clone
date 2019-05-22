@@ -6,7 +6,7 @@ import client from '../../apollo/apollo_client';
 
 render(
   <ApolloProvider client={client}>
-    <LoginSignUp title='Login' loginOrSignUp='Login'/>,
+    <LoginSignUp title='Login' loginOrSignUp='Login'/>
   </ApolloProvider>,
   document.getElementById('root')
 );
