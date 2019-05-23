@@ -3,7 +3,7 @@ import NavBar from '../../../common_components/NavBar';
 import ThreadList from './ThreadList';
 import { GET_THREADS } from '../../../apollo/queries';
 
-export default class App extends React.Component {
+export default class HomeApp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

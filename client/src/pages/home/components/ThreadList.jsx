@@ -1,10 +1,10 @@
 import React from 'react';
-import Thread from './Thread';
+import FrontThread from './FrontThread';
 
 const ThreadList = props => (
   <div className="threadList">
     {props.data.map(thread => (
-      <Thread key={thread.id} thread={thread}/>
+      <FrontThread key={thread.id} thread={thread}/>
     ))}
   </div>
 );

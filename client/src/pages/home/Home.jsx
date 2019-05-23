@@ -1,10 +1,10 @@
 import { render } from 'react-dom';
 import React from 'react';
-import App from './components/App';
+import HomeApp from './components/HomeApp';
 import { ApolloProvider, withApollo } from 'react-apollo';
 import client from '../../apollo/apollo_client';
 
-const AppWithClient = withApollo(App);
+const AppWithClient = withApollo(HomeApp);
 
 render(
   <ApolloProvider client={client}>
