@@ -31,7 +31,7 @@ class LoginSignUp extends React.Component {
         <Mutation 
           mutation={this.props.title === "Login" ? LOGIN : SIGN_UP}
           variables={{name: this.state.user, password: this.state.pass }}
-          onCompleted={user => window.location.href='/home.html'}
+          onCompleted={user => window.history.back()}
         >
           {mutation => (
             <button onClick={() => mutation()}>Submit</button>

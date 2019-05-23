@@ -31,3 +31,16 @@ query ($id: ID!) {
 }
 `;
 
+export const GET_THREAD_COMMENTS = gql`
+query ($id: ID!) {
+  thread(id: $id) {
+    comments {
+      text
+      createdAt
+      user {
+        name
+      }
+    }
+  }
+}
+`;

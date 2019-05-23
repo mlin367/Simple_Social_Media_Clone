@@ -6,7 +6,9 @@ const FrontThread = ({ thread }) => (
     <ApolloConsumer>
       {client => (
         <h3 onClick={() => {
-          client.writeData({ currThreadId: thread.id })
+          client.writeData({ data: {
+            currThreadId: thread.id
+          }})
           window.location.href = '/thread.html';
         }}>{thread.title}</h3>
       )}
