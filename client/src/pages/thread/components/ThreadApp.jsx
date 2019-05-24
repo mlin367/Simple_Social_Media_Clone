@@ -25,13 +25,13 @@ const ThreadApp = props => (
       variables={{ id: localStorage.getItem('currThreadId') }}
     >
       {({ loading: loading1, data: { thread } }) => {
-        console.log(thread)
         if (loading1) return <h1>Loading...</h1>;
         return (
           <React.Fragment>
             <h2>{thread.title}</h2>
             <p>{thread.description}</p>
             {commentPermission}
+            <h3>Comments</h3>
             {thread.comments.map(comment => (
               <p>{comment.text}</p>
             ))}

@@ -37,12 +37,11 @@ const NavBar = props => (
         return (
           <Query query={GET_USER} variables={{ id: isLoggedIn.userId }}>
             {({ loading: loading2, error: error2, data: { user } }) => {
-              console.log(isLoggedIn);
               if (loading2) return <h1>Loading...</h1>;
               if (error2) return <h1>Error 2</h1>;
               return (
                 <div className="navbar">
-                  <h1>Otakus Unite</h1>
+                  <h1 onClick={() => window.location.href='/home.html'}>Otakus Unite</h1>
                   {isLoggedIn.status ? signedIn(user.name) : notSignedIn}
                 </div>
               );
