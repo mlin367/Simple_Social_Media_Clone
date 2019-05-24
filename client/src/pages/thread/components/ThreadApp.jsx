@@ -2,7 +2,7 @@ import React from 'react';
 import NavBar from '../../../common_components/NavBar';
 import { Query, Mutation } from 'react-apollo';
 import { GET_AUTH_STATUS, GET_THREAD_COMMENTS } from '../../../apollo/queries';
-import { gql } from 'apollo-boost';
+import Comment from '../../../common_components/Comment';
 
 const commentPermission = (
   <Query query={GET_AUTH_STATUS}>
@@ -26,6 +26,7 @@ const ThreadApp = props => (
     >
       {({ loading: loading1, data: { thread } }) => {
         if (loading1) return <h1>Loading...</h1>;
+        console.log(thread)
         return (
           <React.Fragment>
             <h2>{thread.title}</h2>
@@ -33,7 +34,7 @@ const ThreadApp = props => (
             {commentPermission}
             <h3>Comments</h3>
             {thread.comments.map(comment => (
-              <p>{comment.text}</p>
+              <Comment comment={comment} key={Math.random()}/>
             ))}
           </React.Fragment>
         );

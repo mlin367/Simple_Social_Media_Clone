@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 const FrontThread = ({ thread }) => (
   <div className="thread">
@@ -13,8 +14,8 @@ const FrontThread = ({ thread }) => (
 
     <div className="threadWrapper">
       <span className="threadUser">by {thread.user.name}</span>
-      <span className="threadTime">{thread.createdAt} | </span>
-      <span className="threadComments">{thread.comment_count}</span>
+      <span className="threadTime">{moment.utc(parseInt(thread.createdAt) + 0.000).local().fromNow()} | </span>
+      <span className="threadComments">{thread.comment_count} comments</span>
     </div>
   </div>
 );

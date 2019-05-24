@@ -9,7 +9,7 @@ const {
   GraphQLSchema,
   GraphQLList,
   GraphQLInt,
-  GraphQLBoolean
+  GraphQLBoolean,
 } = graphql;
 
 const findOneById = async (Model, id) => {
