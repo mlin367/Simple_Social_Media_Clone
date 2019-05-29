@@ -14,7 +14,7 @@ const FrontThread = ({ thread }) => (
 
     <div className="threadWrapper">
       <span className="threadUser">by {thread.user.name}</span>
-      <span className="threadTime">{moment.utc(parseInt(thread.createdAt) + 0.000).local().fromNow()} | </span>
+      <span className="threadTime"> {moment.utc(parseInt(thread.createdAt) + 0.000).local().fromNow()} | </span>
       <span className="threadComments">{thread.comment_count} comments</span>
     </div>
   </div>

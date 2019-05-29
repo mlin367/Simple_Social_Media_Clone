@@ -23,3 +23,11 @@ mutation {
   }
 }
 `;
+
+export const ADD_COMMENT = gql`
+mutation ($text: String!, $userId: ID!, $threadId: ID!) {
+  addComment(text: $text, userId: $userId, threadId: $threadId) {
+    text
+  }
+}
+`;
