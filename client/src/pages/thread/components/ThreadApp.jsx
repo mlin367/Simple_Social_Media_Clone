@@ -4,6 +4,7 @@ import { Query, Mutation } from 'react-apollo';
 import { GET_AUTH_STATUS, GET_THREAD_COMMENTS } from '../../../apollo/queries';
 import { ADD_COMMENT } from '../../../apollo/mutations';
 import Comment from '../../../common_components/Comment';
+import moment from 'moment';
 
 class ThreadApp extends React.Component {
   constructor(props) {
@@ -69,6 +70,11 @@ class ThreadApp extends React.Component {
             if (loading1) return <h1>Loading...</h1>;
             return (
               <React.Fragment>
+                <div className="threadPostWrapper">
+                  <span className="threadUser">Posted by {thread.user.name}</span>
+                  <span className="threadTime"> {moment.utc(parseInt(thread.createdAt) + 0.000).local().fromNow()} | </span>
+                  <span className="threadComments">{thread.comment_count} comments</span>
+                </div>
                 <h2>{thread.title}</h2>
                 <p>{thread.description}</p>
                 {commentPermission}

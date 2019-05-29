@@ -34,8 +34,14 @@ query ($id: ID!) {
 export const GET_THREAD_COMMENTS = gql`
 query ($id: ID!) {
   thread(id: $id) {
+    id
+    createdAt
+    comment_count
     title
     description
+    user {
+      name
+    }
     comments {
       text
       createdAt
