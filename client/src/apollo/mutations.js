@@ -26,9 +26,17 @@ mutation {
 
 export const ADD_COMMENT = gql`
 mutation ($text: String!, $userId: ID!, $threadId: ID!) {
-  addComment(text: $text, userId: $userId, threadId: $threadId) {,
+  addComment(text: $text, userId: $userId, threadId: $threadId) {
     id
     text
+  }
+}
+`;
+
+export const ADD_THREAD = gql`
+mutation ($title: String!, $description: String!, $userId: ID!) {
+  addThread(title: $title, description: $description, comment_count: 0, userId: $userId) {
+    id
   }
 }
 `;

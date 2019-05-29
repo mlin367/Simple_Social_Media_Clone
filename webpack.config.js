@@ -8,7 +8,8 @@ module.exports = {
     login: path.resolve(__dirname, './client/src/pages/login/Login.jsx'),
     signup: path.resolve(__dirname, './client/src/pages/signup/SignUp.jsx'),
     mycomments: path.resolve(__dirname, './client/src/pages/mycomments/MyComments.jsx'),
-    usersettings: path.resolve(__dirname, './client/src/pages/usersettings/UserSettings.jsx')
+    usersettings: path.resolve(__dirname, './client/src/pages/usersettings/UserSettings.jsx'),
+    createthread: path.resolve(__dirname, './client/src/pages/createthread/CreateThread.jsx'),
   },
   output: {
     path: path.resolve(__dirname, './client/dist/bundles'),
