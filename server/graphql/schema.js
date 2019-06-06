@@ -65,7 +65,8 @@ const ThreadType = new GraphQLObjectType({
           raw: true,
           where: {
             threadId: parent.id
-          }
+          },
+          order: [['createdAt', 'DESC']]
         });
         return result;
       }
@@ -86,7 +87,8 @@ const UserType = new GraphQLObjectType({
           raw: true,
           where: {
             userId: parent.id
-          }
+          },
+          order: [['createdAt', 'DESC']]
         });
         return result;
       }
@@ -129,14 +131,14 @@ const RootQuery = new GraphQLObjectType({
     comments: {
       type: new GraphQLList(CommentType),
       resolve: async (parent, args) => {
-        let result = await Comment.findAll({raw: true});
+        let result = await Comment.findAll({raw: true, order: [['createdAt', 'DESC']]});
         return result
       }
     },
     threads: {
       type: new GraphQLList(ThreadType),
       resolve: async (parent, args) => {
-        let result = await Thread.findAll({raw: true});
+        let result = await Thread.findAll({raw: true, order: [['createdAt', 'DESC']]});
         return result;
       }
     },
