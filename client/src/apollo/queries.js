@@ -52,3 +52,17 @@ query ($id: ID!) {
   }
 }
 `;
+
+export const GET_USER_COMMENTS = gql`
+query ($id: ID!) {
+  user(id: $id) {
+    comments {
+      text
+      createdAt
+      user {
+        name
+      }
+    }
+  }
+}
+`;

@@ -13,7 +13,7 @@ const signedIn = user => (
         <span className="userName">{user}</span>
         <div className="dropDown-content">
           <a>User Settings</a>
-          <a>My Comments</a>
+          <a onClick={() => window.location.href='/mycomments.html'}>My Comments</a>
           <a onClick={() => mutation()}>Log Out</a>
         </div>
       </div>
