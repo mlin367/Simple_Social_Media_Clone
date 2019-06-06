@@ -19,7 +19,7 @@ const MyCommentsApp = props => (
             {({loading: loading1, data: data2}) => {
               if (loading1) return <h1>Loading...</h1>
               return data2.user.comments.map((comment, id) => (
-                <Comment comment={comment} key={Math.random() * id}/>
+                <Comment haveOnClick={true} comment={comment} key={Math.random() * id}/>
               ))
             }}
           </Query>

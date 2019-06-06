@@ -2,7 +2,12 @@ import React from 'react';
 import moment from 'moment';
 
 const Comment = props => (
-  <div className="comment">
+  <div onClick={props.haveOnClick ? () => {
+    localStorage.setItem('currThreadId', props.comment.thread.id);
+    window.location.href='/thread.html';
+  } : null} 
+  className="comment"
+  >
     <div className="commentWrapper">
       <span>{props.comment.user.name} </span>
       |

@@ -62,6 +62,9 @@ query ($id: ID!) {
       user {
         name
       }
+      thread {
+        id
+      }
     }
   }
 }
