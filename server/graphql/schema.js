@@ -211,6 +211,24 @@ const Mutation = new GraphQLObjectType({
         return userInfo;
       }
     },
+    updateUserPassword: {
+      type: UserType,
+      args: {
+        name: { type: GraphQLString },
+        password: { type: GraphQLString },
+        newPassword: { type: GraphQLString }
+      },
+      resolve: async (parent, args) => {
+        const user = await User.findOne({ where: { name: args.name }});
+        const isValidPass = await bcrypt.compare(args.password, user.hash_password);
+        if (!isValidPass) return "Current password incorrect";
+        else {
+          const newPass = await bcrypt.hash(args.newPassword, 10);
+          user.update({ hash_password: newPass });
+          return "Password updated";
+        }
+      }
+    },
     addThread: {
       type: ThreadType,
       args: {
