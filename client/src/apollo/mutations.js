@@ -40,3 +40,11 @@ mutation ($title: String!, $description: String!, $userId: ID!) {
   }
 }
 `;
+
+export const UPDATE_PASSWORD = gql`
+mutation ($name: String!, $password: String!, $newPassword: String!) {
+  updateUserPassword(name: $name, password: $password, newPassword: $newPassword) {
+    text
+  }
+}
+`;

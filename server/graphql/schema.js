@@ -104,6 +104,14 @@ const AuthType = new GraphQLObjectType({
   })
 });
 
+const StringType = new GraphQLObjectType({
+  name: 'text',
+  fields: () => ({
+    text: { type: GraphQLString}
+  })
+})
+
+
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
   fields: {
@@ -212,7 +220,7 @@ const Mutation = new GraphQLObjectType({
       }
     },
     updateUserPassword: {
-      type: UserType,
+      type: StringType,
       args: {
         name: { type: GraphQLString },
         password: { type: GraphQLString },
@@ -221,11 +229,11 @@ const Mutation = new GraphQLObjectType({
       resolve: async (parent, args) => {
         const user = await User.findOne({ where: { name: args.name }});
         const isValidPass = await bcrypt.compare(args.password, user.hash_password);
-        if (!isValidPass) return "Current password incorrect";
+        if (!isValidPass) return { text: "Current password incorrect"};
         else {
           const newPass = await bcrypt.hash(args.newPassword, 10);
           user.update({ hash_password: newPass });
-          return "Password updated";
+          return {text: "Password updated"};
         }
       }
     },
