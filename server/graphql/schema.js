@@ -178,19 +178,19 @@ const Mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
     login : {
-      type: UserType,
+      type: StringType,
       args: {
         name: { type: GraphQLString },
         password: { type: GraphQLString }
       },
       resolve: async (parent, args, { session }) => {
         const user = await User.findOne({ where: { name: args.name }});
-        if (!user) return null;
+        if (!user) return { text: "User or Password incorrect"};
         const userInfo = await user.get({ plain: true });
         const isValidPass = await bcrypt.compare(args.password, user.hash_password);
-        if (!isValidPass) return null;
+        if (!isValidPass) return { text: "User or Password incorrect"};
         session.userId = userInfo.id;
-        return userInfo;
+        return { text: "Login Successful"};
       }
     },
     logout: {

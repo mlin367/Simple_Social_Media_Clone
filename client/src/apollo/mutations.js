@@ -11,7 +11,7 @@ mutation ($name: String!, $password: String!) {
 export const LOGIN = gql`
 mutation ($name: String!, $password: String!) {
   login(name: $name, password: $password) {
-    name
+    text
   }
 }
 `;
