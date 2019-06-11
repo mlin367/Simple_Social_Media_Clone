@@ -201,14 +201,14 @@ const Mutation = new GraphQLObjectType({
       }
     },
     addUser: {
-      type: UserType,
+      type: StringType,
       args: {
         name: { type: GraphQLString },
         password: { type: GraphQLString }
       },
       resolve: async (parent, args, { session }) => {
         const checkUser = await User.findOne({ where: { name: args.name }});
-        if (checkUser) return 'Username already exists!';
+        if (checkUser) return {text: 'Username already exists!'};
         const password = await bcrypt.hash(args.password, 10);
         const user = await User.create({
           name: args.name,
@@ -216,7 +216,7 @@ const Mutation = new GraphQLObjectType({
         });
         const userInfo = user.get({ plain: true });
         session.userId = userInfo.id;
-        return userInfo;
+        return {text: 'Signup Successful'};
       }
     },
     updateUserPassword: {

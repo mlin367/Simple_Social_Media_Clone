@@ -33,12 +33,12 @@ class LoginSignUp extends React.Component {
         <Mutation 
           mutation={this.props.title === "Login" ? LOGIN : SIGN_UP}
           variables={{name: this.state.user, password: this.state.pass }}
-          onCompleted={({ login }) => {
-            console.log(login)
-            if (login.text === "User or Password incorrect") {
-              this.setState({ returnString: login.text })
+          onCompleted={data => {
+            let returnText = data.login || data.addUser;
+            if (returnText.text === "User or Password incorrect" || returnText.text === "Username already exists!") {
+              this.setState({ returnString: returnText.text })
             } else {
-              window.history.back()
+              window.location.href = '/home.html';
             }
           }}
         >
