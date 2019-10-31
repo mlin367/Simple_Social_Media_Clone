@@ -39,7 +39,7 @@
     "react-apollo": "^2.5.5",
     "react-dom": "^16.8.6",
     "redis": "^2.8.0",
-    "sequelize": "^5.8.2"
+    "sequelize": "^5.15.1"
   },
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.4.4",
